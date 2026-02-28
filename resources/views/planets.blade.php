@@ -9,7 +9,7 @@
 <h1>Planets</h1>
 
 <ul>
-    @foreach($planets as $planet)
+    @foreach($planeten as $planet)
         <li>
             <h2>{{ $planet['name'] }}</h2>
             <p>{{ $planet['description'] }}</p>

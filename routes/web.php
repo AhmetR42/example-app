@@ -2,42 +2,50 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/planets', function () {
-
-    $planets = [
+function planetsData(): array
+{
+    return [
         [
-            'name' => 'Mars',
-            'description' => 'Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System, being larger than only Mercury.'
+            'name' => 'mars',
+            'title' => 'Mars',
+            'description' => 'Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System, being larger than only Mercury.',
+            'diameter' => '6,779 km',
         ],
         [
-            'name' => 'Venus',
-            'description' => 'Venus is the second planet from the Sun. It is named after the Roman goddess of love and beauty.'
+            'name' => 'venus',
+            'title' => 'Venus',
+            'description' => 'Venus is the second planet from the Sun. It is named after the Roman goddess of love and beauty.',
+            'diameter' => '12,104 km',
         ],
         [
-            'name' => 'Earth',
-            'description' => 'Our home planet is the third planet from the Sun, and the only place we know of so far thats inhabited by living things.'
+            'name' => 'earth',
+            'title' => 'Earth',
+            'description' => 'Our home planet is the third planet from the Sun, and the only place we know of so far thats inhabited by living things.',
+            'diameter' => '12,742 km',
         ],
         [
-            'name' => 'Jupiter',
-            'description' => 'Jupiter is a gas giant and doesn\'t have a solid surface, but it may have a solid inner core about the size of Earth.'
+            'name' => 'jupiter',
+            'title' => 'Jupiter',
+            'description' => 'Jupiter is a gas giant and doesn\'t have a solid surface, but it may have a solid inner core about the size of Earth.',
+            'diameter' => '139,820 km',
         ],
     ];
+}
 
-    // Zet array om naar collection
-    $collection = collect($planets);
+Route::view('/', 'welcome')->name('home');
 
-    // Controleer of GET parameter 'planeet' bestaat
-    if (request()->has('planeet')) {
-
-        // Haal parameter op en maak eerste letter hoofdletter
-        $planeet = ucfirst(request('planeet'));
-
-        // Filter de collection
-        $collection = $collection->where('name', $planeet);
-    }
-
-    // Stuur gefilterde of volledige lijst naar view
-    return view('planets', [
-        'planeten' => $collection->toArray()
+Route::get('/planets', function () {
+    return view('planets.index', [
+        'planeten' => planetsData(),
     ]);
-});
+})->name('planets.index');
+
+Route::get('/planets/{planet}', function (string $planet) {
+    $planeet = collect(planetsData())->firstWhere('name', strtolower($planet));
+
+    abort_if(is_null($planeet), 404);
+
+    return view('planets.show', [
+        'planeet' => $planeet,
+    ]);
+})->name('planets.show');

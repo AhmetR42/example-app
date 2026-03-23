@@ -1,10 +1,23 @@
 <?php
 
+use App\Http\Controllers\PlanetController;
 use Illuminate\Support\Facades\Route;
 
+<<<<<<< HEAD
 function planetsData(): array
 {
     return [
+=======
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/planets', [PlanetController::class, 'index']);
+Route::get('/planets/{planet}', [PlanetController::class, 'show']);
+Route::get('/planets', function () {
+
+    $planets = [
+>>>>>>> 4e769493baf55ed667d9df9b81f5836aad3377b1
         [
             'name' => 'mars',
             'title' => 'Mars',

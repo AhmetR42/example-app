@@ -10,7 +10,7 @@ class PlanetController extends Controller
     {
         $planeten = Planet::with('solar_system')->get();
 
-        return view('planets', [
+        return view('planets.index', [
             'planeten' => $planeten,
         ]);
     }
@@ -23,7 +23,7 @@ class PlanetController extends Controller
 
         abort_unless($gevondenPlaneet, 404);
 
-        return view('planets', [
+        return view('planets.index', [
             'planeten' => [$gevondenPlaneet],
         ]);
     }

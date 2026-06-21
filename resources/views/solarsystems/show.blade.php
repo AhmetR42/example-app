@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Planeten</title>
+    <title>{{ $solarSystem->name }}</title>
 </head>
 <body>
     <nav>
@@ -10,7 +10,9 @@
         <a href="{{ route('solarsystems.index') }}">Zonnestelsels</a>
     </nav>
 
-    <h1>Alle planeten</h1>
+    <h1>{{ $solarSystem->name }}</h1>
+
+    <h2>Planeten in dit zonnestelsel</h2>
 
     <table border="1" cellpadding="8">
         <thead>
@@ -18,25 +20,15 @@
                 <th>Naam</th>
                 <th>Beschrijving</th>
                 <th>Grootte in km</th>
-                <th>Zonnestelsel</th>
                 <th>Link</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($planeten as $planeet)
+            @foreach ($solarSystem->planets as $planeet)
                 <tr>
                     <td>{{ $planeet->name }}</td>
                     <td>{{ $planeet->description }}</td>
                     <td>{{ $planeet->size_in_km }}</td>
-                    <td>
-                        @if ($planeet->solar_system)
-                            <a href="{{ route('solarsystems.show', $planeet->solar_system->id) }}">
-                                {{ $planeet->solar_system->name }}
-                            </a>
-                        @else
-                            Geen zonnestelsel
-                        @endif
-                    </td>
                     <td>
                         <a href="{{ route('planets.show', $planeet->name) }}">
                             Bekijk planeet

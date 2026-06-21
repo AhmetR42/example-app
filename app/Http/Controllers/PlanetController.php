@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Planet;
 
 class PlanetController extends Controller
 {
     public function index()
     {
-        $planeten = DB::table('planets')->get();
+        $planeten = Planet::with('solar_system')->get();
 
         return view('planets', [
             'planeten' => $planeten,
@@ -17,7 +17,7 @@ class PlanetController extends Controller
 
     public function show(string $planet)
     {
-        $gevondenPlaneet = DB::table('planets')
+        $gevondenPlaneet = Planet::with('solar_system')
             ->where('name', $planet)
             ->first();
 
